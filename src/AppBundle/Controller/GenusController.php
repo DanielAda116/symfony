@@ -11,6 +11,8 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Genus;
 use AppBundle\Repository\GenusRepository;
+use AppBundle\Service\ChangeUrl;
+use AppBundle\Service\MarkdownTransformer;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -55,7 +57,7 @@ class GenusController extends Controller
     /**
      * @Route("/genus/{genusName}", name="genus_show")
      */
-    public function showAction($genusName){
+    public function showAction($genusName, MarkdownTransformer $markdownTransformer, ChangeUrl $changeUrl){
 
         $em= $this->getDoctrine()->getManager();
 
@@ -65,8 +67,14 @@ class GenusController extends Controller
             throw $this->createNotFoundException('Genus not found');
         }
 
+        $funFact = $markdownTransformer->parse($genus->getFunFact());
+
+        dump($changeUrl->getChangedURL());
+
         return $this->render('genus/show.html.twig', array(
-            'genus' => $genus
+            'genus' => $genus,
+            'funFact' => $funFact,
+//            'url' => $url,
         ));
     }
 
