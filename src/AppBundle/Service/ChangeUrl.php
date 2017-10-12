@@ -25,7 +25,10 @@ class ChangeUrl
     {
 
         $request = $this->requestStack->getCurrentRequest();
-        $adress = $request->getScheme();
+        $host = $request->getHttpHost();
+        $url = $request->getPathInfo();
+
+        $adress = "https://".$host.$url;
 
         return $adress;
     }

@@ -69,12 +69,12 @@ class GenusController extends Controller
 
         $funFact = $markdownTransformer->parse($genus->getFunFact());
 
-        dump($changeUrl->getChangedURL());
+        $url = $changeUrl->getChangedURL();
 
         return $this->render('genus/show.html.twig', array(
             'genus' => $genus,
             'funFact' => $funFact,
-//            'url' => $url,
+            'url' => $url,
         ));
     }
 
