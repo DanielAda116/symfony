@@ -1,3 +1,32 @@
 app:
     resource: '@AppBundle/Controller/'
     type: annotation
+
+app_api:
+    resource: '@AppBundle/Controller/Api'
+    type: annotation
+
+api_programmers:
+    path:     /api/programmer
+    methods: [POST]
+    defaults: { _controller: AppBundle\Controller\Api\ProgrammerController::newAction}
+
+programmer_show:
+    path:     /api/programmers/{name}
+    methods: [GET]
+    defaults: { _controller: AppBundle\Controller\Api\ProgrammerController::showAction}
+
+programmer_list:
+    path:     /api/programmers
+    methods: [GET]
+    defaults: { _controller: AppBundle\Controller\Api\ProgrammerController::listAction}
+
+programmer_update:
+     path:     /api/programmers/{name}
+     methods: [PUT,PATCH]
+     defaults: { _controller: AppBundle\Controller\Api\ProgrammerController::updateAction}
+
+programmer_delete:
+     path:     /api/programmers/{name}
+     methods: [DELETE]
+     defaults: { _controller: AppBundle\Controller\Api\ProgrammerController::deleteAction}
