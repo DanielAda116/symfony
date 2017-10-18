@@ -10,13 +10,16 @@ namespace AppBundle\Controller;
 
 
 use AppBundle\Entity\Genus;
+use AppBundle\Entity\GenusNote;
 use AppBundle\Repository\GenusRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
 class GenusController extends Controller
 {
+
     /**
      * @Route("/genus/new")
      */
@@ -27,8 +30,16 @@ class GenusController extends Controller
         $genus->setSubFamily('Octoprontus');
         $genus->setSpeciesCount(rand(100,31231));
 
+        $note = new GenusNote();
+        $note->setUsername('AquaWeaver');
+        $note->setUserAvatarFilename('ryan.jpeg');
+        $note->setNote('I counted 8 legs... as they wrapped around me');
+        $note->setCreatedAt(new \DateTime('-1 month'));
+        $note->setGenus($genus);
+
         $em = $this->getDoctrine()->getManager();
         $em->persist($genus);
+        $em->persist($note);
         $em->flush();
 
         return new Response('<html><body>Genus '.$genus->getName().' created!</body></html>');
@@ -69,5 +80,17 @@ class GenusController extends Controller
             'genus' => $genus
         ));
     }
+
+    /**
+     * @Route("/genus/{name}/notes", name="genus_show_notes")
+     * @Method("GET")
+     */
+    public function getNotesAction($genusName)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+
+    }
+
 
 }
